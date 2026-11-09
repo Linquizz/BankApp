@@ -1,0 +1,29 @@
+name: TestWorkflow
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Set up .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: '10.0.x'
+            - name: Build-project
+              run: dotnet build BankApp/BankApp.csproj
+
+    test:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Set up .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: '10.0.x'
+            - name: Run tests
+              run: dotnet test BankApp.Tests/BankApp.Tests.csproj
